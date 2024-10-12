@@ -36,18 +36,13 @@ class ApiAuthController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role' => 'user',
-                'no_hp' => $request->no_hp,
             ]);
-
-            $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
                 'status' => 'success',
                 'message' => 'User registered successfully',
                 'data' => [
                     'user' => $user,
-                    'access_token' => $token,
-                    'token_type' => 'Bearer',
                 ]
             ], Response::HTTP_CREATED);
         } catch (\Exception $e) {
