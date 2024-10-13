@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\ApiArtikelController;
+use App\Http\Controllers\Api\ApiProfileController;
 use App\Http\Controllers\Api\ApiBookmarkController;
 
 /*
@@ -34,4 +35,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Bookmark Routes
     Route::get('/bookmarks', [ApiBookmarkController::class, 'index']);
     Route::post('/bookmarks/toggle', [ApiBookmarkController::class, 'toggle']);
+
+    // Profile Routes
+    Route::get('/profile', [ApiProfileController::class, 'show']);
+    Route::put('/profile', [ApiProfileController::class, 'update']);
+    Route::post('/profile/avatar', [ApiProfileController::class, 'updateAvatar']);
 });

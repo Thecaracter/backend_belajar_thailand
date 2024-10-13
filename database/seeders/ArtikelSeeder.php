@@ -20,13 +20,13 @@ class ArtikelSeeder extends Seeder
             $user = User::factory()->create();
         }
 
-        // Membuat 5 artikel
+
         for ($i = 1; $i <= 5; $i++) {
             Artikel::create([
                 'user_id' => $user->id,
                 'judul' => "Artikel Test $i",
                 'ringkasan' => "Ini adalah ringkasan untuk artikel test $i.",
-                'foto' => null, // Anda bisa menggantinya dengan path foto jika diperlukan
+                'foto' => null,
                 'konten' => "Ini adalah konten lengkap untuk artikel test $i. " . Str::random(200),
                 'like_count' => 0,
                 'view_count' => 0,

@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('judul');
             $table->text('ringkasan');
-            $table->string('foto')->nullable();
+            $table->longText('foto')->nullable();
             $table->text('konten');
             $table->integer('like_count')->default(0);
             $table->integer('view_count')->default(0);
