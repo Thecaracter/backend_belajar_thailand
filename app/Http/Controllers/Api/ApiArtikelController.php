@@ -57,8 +57,21 @@ class ApiArtikelController extends Controller
                 ], 422);
             }
 
+            $user = $request->user();
+            $userId = $user ? $user->id : null;
+
             $artikel = Artikel::with(['user:id,name'])
                 ->withCount('likes')
+                ->withCount([
+                    'likes as is_liked' => function ($query) use ($userId) {
+                        $query->where('user_id', $userId);
+                    }
+                ])
+                ->withCount([
+                    'bookmarks as is_bookmarked' => function ($query) use ($userId) {
+                        $query->where('user_id', $userId);
+                    }
+                ])
                 ->findOrFail($request->id);
 
             if ($artikel->is_published) {
@@ -67,6 +80,10 @@ class ApiArtikelController extends Controller
 
             $artikel->penulis = $artikel->user->name;
             unset($artikel->user);
+
+            // Convert 'is_liked' and 'is_bookmarked' counts to boolean
+            $artikel->is_liked = (bool) $artikel->is_liked;
+            $artikel->is_bookmarked = (bool) $artikel->is_bookmarked;
 
             return response()->json([
                 'status' => 'success',
