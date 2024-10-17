@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->longText('avatar')->nullable();
             $table->string('no_hp')->nullable();
             $table->text('fcm_token')->nullable();
+            $table->string('otp')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -20,6 +20,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'no_hp',
         'avatar',
         'fcm_token',
+        'otp',
     ];
 
     protected $hidden = [

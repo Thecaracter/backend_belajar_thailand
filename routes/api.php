@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\ApiArtikelController;
 use App\Http\Controllers\Api\ApiProfileController;
 use App\Http\Controllers\Api\ApiBookmarkController;
+use App\Http\Controllers\Api\ApiForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,10 @@ use App\Http\Controllers\Api\ApiBookmarkController;
 
 Route::post('/register', [ApiAuthController::class, 'register']);
 Route::post('/login', [ApiAuthController::class, 'login']);
+Route::post('/forgot-password/send-otp', [ApiForgotPasswordController::class, 'sendOtp']);
+Route::post('/forgot-password/verify-otp', [ApiForgotPasswordController::class, 'verifyOtp']);
+Route::post('/forgot-password/reset-password', [ApiForgotPasswordController::class, 'resetPassword']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [ApiAuthController::class, 'logout']);
