@@ -39,11 +39,12 @@ class ApiForgotPasswordController extends Controller
             $now = now();
             $fiveMinutesAgo = $now->copy()->subMinutes(5);
 
-
             if ($user->updated_at >= $fiveMinutesAgo) {
-                $timeLeft = $fiveMinutesAgo->diffInSeconds($user->updated_at);
-                return $this->jsonResponse('Error', "Please wait {$timeLeft} seconds before requesting a new OTP", null, 429);
+                $timeLeft = $now->diff($user->updated_at->addMinutes(5));
+                $waitTime = $this->formatWaitTime($timeLeft);
+                return $this->jsonResponse('Error', "Please wait {$waitTime} before requesting a new OTP", null, 429);
             }
+
             $otp = $this->generateUniqueOtp();
             $user->otp = $otp;
             $user->save();
@@ -52,6 +53,18 @@ class ApiForgotPasswordController extends Controller
             return $this->jsonResponse('Success', 'OTP sent successfully', null, 200);
         } catch (\Exception $e) {
             return $this->jsonResponse('Error', 'Failed to send OTP: ' . $e->getMessage(), null, 500);
+        }
+    }
+
+    private function formatWaitTime($interval)
+    {
+        $minutes = $interval->i;
+        $seconds = $interval->s;
+
+        if ($minutes > 0) {
+            return $minutes == 1 ? "1 minute" : "{$minutes} minutes";
+        } else {
+            return $seconds == 1 ? "1 second" : "{$seconds} seconds";
         }
     }
 
