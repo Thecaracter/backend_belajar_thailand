@@ -36,15 +36,19 @@ class ApiForgotPasswordController extends Controller
 
             $user = User::where('email', $request->email)->first();
 
-            // Generate OTP unik
-            $otp = $this->generateUniqueOtp();
+            $now = now();
+            $fiveMinutesAgo = $now->copy()->subMinutes(5);
 
-            // Update OTP pengguna di database
+
+            if ($user->updated_at >= $fiveMinutesAgo) {
+                $timeLeft = $fiveMinutesAgo->diffInSeconds($user->updated_at);
+                return $this->jsonResponse('Error', "Please wait {$timeLeft} seconds before requesting a new OTP", null, 429);
+            }
+            $otp = $this->generateUniqueOtp();
             $user->otp = $otp;
             $user->save();
 
             Mail::to($user->email)->send(new OtpMail($otp));
-
             return $this->jsonResponse('Success', 'OTP sent successfully', null, 200);
         } catch (\Exception $e) {
             return $this->jsonResponse('Error', 'Failed to send OTP: ' . $e->getMessage(), null, 500);
@@ -57,7 +61,7 @@ class ApiForgotPasswordController extends Controller
         $random = mt_rand(100000, 999999);
         $otp = substr($timestamp . $random, -6);
 
-        // Pastikan OTP belum digunakan
+
         while (User::where('otp', $otp)->exists()) {
             $random = mt_rand(100000, 999999);
             $otp = substr($timestamp . $random, -6);
