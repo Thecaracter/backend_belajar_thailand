@@ -61,11 +61,17 @@ class ApiForgotPasswordController extends Controller
         $minutes = $interval->i;
         $seconds = $interval->s;
 
+        $parts = [];
+
         if ($minutes > 0) {
-            return $minutes == 1 ? "1 minute" : "{$minutes} minutes";
-        } else {
-            return $seconds == 1 ? "1 second" : "{$seconds} seconds";
+            $parts[] = $minutes == 1 ? "1 minute" : "{$minutes} minutes";
         }
+
+        if ($seconds > 0 || $minutes == 0) {
+            $parts[] = $seconds == 1 ? "1 second" : "{$seconds} seconds";
+        }
+
+        return implode(' ', $parts);
     }
 
     private function generateUniqueOtp()
