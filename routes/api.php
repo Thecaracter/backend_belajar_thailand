@@ -50,6 +50,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/bookmarked-articles', [ApiBookmarkController::class, 'getBookmarkedArticles']);
 
-    Route::get('categories', [ApiKategoriLessonController::class, 'index']);
+    Route::get('/categories', [ApiKategoriLessonController::class, 'index']);
 });
 
