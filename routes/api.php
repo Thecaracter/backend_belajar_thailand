@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\ApiArtikelController;
 use App\Http\Controllers\Api\ApiProfileController;
 use App\Http\Controllers\Api\ApiBookmarkController;
 use App\Http\Controllers\Api\ApiForgotPasswordController;
-use App\Http\Controllers\Api\ArticleBookmarkController;
+
 
 /*
 |--------------------------------------------------------------------------
