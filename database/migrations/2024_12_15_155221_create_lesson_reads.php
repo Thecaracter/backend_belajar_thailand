@@ -10,10 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('kategori_lessons', function (Blueprint $table) {
+        Schema::create('lesson_reads', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('lesson_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->unique(['user_id', 'lesson_id']);
         });
     }
 
@@ -22,6 +24,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('kategori_class');
+        Schema::dropIfExists('lesson_reads');
     }
 };

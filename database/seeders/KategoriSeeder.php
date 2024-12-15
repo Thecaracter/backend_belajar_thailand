@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\KategoriClass;
+use App\Models\KategoriLesson;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -23,7 +24,7 @@ class KategoriSeeder extends Seeder
         ];
 
         foreach ($kategori as $k) {
-            KategoriClass::create($k);
+            KategoriLesson::create($k);
         }
     }
 }

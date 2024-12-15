@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ApiArtikelController;
 use App\Http\Controllers\Api\ApiProfileController;
 use App\Http\Controllers\Api\ApiBookmarkController;
 use App\Http\Controllers\Api\ApiForgotPasswordController;
+use App\Http\Controllers\Api\ApiKategoriLessonController;
 
 
 /*
@@ -48,5 +49,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/profile/avatar', [ApiProfileController::class, 'updateAvatar']);
 
     Route::get('/bookmarked-articles', [ApiBookmarkController::class, 'getBookmarkedArticles']);
+
+    Route::get('categories', [ApiKategoriLessonController::class, 'index']);
 });
 

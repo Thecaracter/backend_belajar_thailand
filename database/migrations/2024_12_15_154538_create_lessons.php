@@ -10,13 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('artikle_class', function (Blueprint $table) {
+        Schema::create('lessons', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('kategori_id')->constrained('kategori_lessons')->onDelete('cascade');
             $table->string('judul');
-            $table->string('deskripsi');
-            $table->longText('gambar');
-            $table->longText('konten');
-            $table->unsignedBigInteger('kategori_id');
+            $table->text('deskripsi')->nullable();
+            $table->text('gambar')->nullable();
+            $table->longText('isi');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('artkle_class');
+        Schema::dropIfExists('lessons');
     }
 };
