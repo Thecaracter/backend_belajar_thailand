@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ApiAuthController;
+use App\Http\Controllers\Api\ApiLessonController;
 use App\Http\Controllers\Api\ApiArtikelController;
 use App\Http\Controllers\Api\ApiProfileController;
 use App\Http\Controllers\Api\ApiBookmarkController;
@@ -51,5 +52,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/bookmarked-articles', [ApiBookmarkController::class, 'getBookmarkedArticles']);
 
     Route::get('/categories', [ApiKategoriLessonController::class, 'index']);
+
+    Route::post('kategori-lessons/lessons', [ApiLessonController::class, 'getLessonsByCategory']);
 });
 
