@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\ApiArtikelController;
 use App\Http\Controllers\Api\ApiProfileController;
 use App\Http\Controllers\Api\ApiBookmarkController;
+use App\Http\Controllers\ArticleBookmarkController;
 use App\Http\Controllers\Api\ApiForgotPasswordController;
 
 /*
@@ -45,4 +46,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [ApiProfileController::class, 'show']);
     Route::put('/profile', [ApiProfileController::class, 'update']);
     Route::post('/profile/avatar', [ApiProfileController::class, 'updateAvatar']);
+
+    Route::get('/bookmarked-articles', [ArticleBookmarkController::class, 'getBookmarkedArticles']);
 });
