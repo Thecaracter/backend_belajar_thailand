@@ -48,6 +48,60 @@ class ApiBookmarkController extends Controller
         }
     }
 
+    public function getBookmarkedArticles(Request $request)
+    {
+        try {
+            $user = $request->user();
+            $bookmarks = ArtikelBookmark::where('user_id', $user->id)
+                ->with([
+                    'artikel' => function ($query) {
+                        $query->select(
+                            'id',
+                            'user_id',
+                            'judul',
+                            'ringkasan',
+                            'foto',
+                            'konten',
+                            'view_count',
+                            'created_at'
+                        )
+                            ->where('is_published', true)
+                            ->withCount('likes as like_count');
+                    }
+                ])
+                ->latest()
+                ->get();
+
+            $articles = $bookmarks->map(function ($bookmark) {
+                $artikel = $bookmark->artikel;
+                if (!$artikel) {
+                    return null;
+                }
+
+                return [
+                    'id' => $artikel->id,
+                    'judul' => $artikel->judul,
+                    'ringkasan' => $artikel->ringkasan,
+                    'foto' => $artikel->foto,
+                    'view_count' => $artikel->view_count,
+                    'like_count' => $artikel->like_count,
+                    'created_at' => $artikel->created_at
+                ];
+            })->filter()->values();
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $articles
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to fetch bookmarked articles'
+            ], 500);
+        }
+    }
+
     public function toggle(Request $request)
     {
         try {
