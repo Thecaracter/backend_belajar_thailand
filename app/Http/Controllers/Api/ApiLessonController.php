@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Lesson;
 use App\Models\LessonRead;
 use Illuminate\Http\Request;
 use App\Models\KategoriLesson;
@@ -42,6 +43,38 @@ class ApiLessonController extends Controller
             'data' => [
                 'lessons' => $lessons
             ]
+        ]);
+    }
+
+    public function markAsRead(Request $request)
+    {
+        $request->validate([
+            'lesson_id' => 'required|exists:lessons,id'
+        ]);
+
+        $userId = auth()->id();
+
+        // Cek apakah lesson sudah pernah dibaca
+        $lessonRead = LessonRead::where('user_id', $userId)
+            ->where('lesson_id', $request->lesson_id)
+            ->first();
+
+        // Jika belum pernah dibaca, buat record baru
+        if (!$lessonRead) {
+            LessonRead::create([
+                'user_id' => $userId,
+                'lesson_id' => $request->lesson_id
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Lesson marked as read successfully'
+            ]);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Lesson already marked as read'
         ]);
     }
 }

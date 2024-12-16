@@ -49,10 +49,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/profile', [ApiProfileController::class, 'update']);
     Route::post('/profile/avatar', [ApiProfileController::class, 'updateAvatar']);
 
+    //Artikel disimpan
     Route::get('/bookmarked-articles', [ApiBookmarkController::class, 'getBookmarkedArticles']);
 
+    // Lesson Routes
     Route::get('/categories', [ApiKategoriLessonController::class, 'index']);
-
     Route::post('kategori-lessons/lessons', [ApiLessonController::class, 'getLessonsByCategory']);
+    Route::post('/lessons/mark-read', [ApiLessonController::class, 'markAsRead']);
 });
 
