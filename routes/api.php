@@ -56,5 +56,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/categories', [ApiKategoriLessonController::class, 'index']);
     Route::post('kategori-lessons/lessons', [ApiLessonController::class, 'getLessonsByCategory']);
     Route::post('/lessons/mark-read', [ApiLessonController::class, 'markAsRead']);
+    Route::get('/lessons/detail', [ApiLessonController::class, 'getLessonById']);
 });
 
